@@ -1,0 +1,61 @@
+﻿<div class="navbar-header">
+    <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed" data-toggle="collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" ui-sref="master.report" translate>NAV.BRAND</a>
+</div>
+<nav class="hidden-xs">
+    <ul class="nav navbar-nav navbar-right">
+        <form class="navbar-form navbar-nav" role="search">
+            <div class="input-group">
+                <input type="number" ng-model="searchNumber" class="form-control" placeholder="{{'NAV.SEARCH_PLACEHOLDER' | translate}}">
+                <span class="input-group-btn">
+                    <a class="btn btn-default" ui-sref="master.report.manage({ reportNumber: searchNumber || 0 })" ng-disabled="!searchNumber"><i class="glyphicon glyphicon-search"></i></a>
+                </span>
+            </div><!-- /input-group -->
+        </form>
+        <li class="dropdown" uib-dropdown>
+            <a role="button" class="dropdown-toggle" uib-dropdown-toggle>
+                {{navbar.local.user.Name}} {{navbar.local.user.Surname}}<b class="caret"></b>
+            </a>
+            <ul class="uib-dropdown-menu">
+                <li><a ui-sref="master.report"><i class="glyphicon glyphicon-plus"></i> {{'NAV.NEW_REPORT' | translate}}</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header"><b translate>NAV.YOUR_REPORTS_TITLE</b></li>
+                <li><a ui-sref="master.report.list({ listType: 'draft' })"><i class="glyphicon glyphicon-cog"></i> {{'NAV.DRAFTS' | translate}}</a></li>
+                <li><a ui-sref="master.report.list({ listType: 'all' })"><i class="glyphicon glyphicon-list"></i> {{'NAV.ALL' | translate}}</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" ng-click="navbar.actions.doLogout()"><i class="glyphicon glyphicon-off"></i> {{'NAV.LOGOUT' | translate}}</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<nav class="visible-xs">
+    <ul class="nav navbar-nav" uib-collapse="!isCollapsed">
+        <form class="navbar-form navbar-nav" role="search">
+            <div class="input-group">
+                <input type="number" ng-model="searchNumber" class="form-control" placeholder="{{'NAV.SEARCH_PLACEHOLDER' | translate}}">
+                <span class="input-group-btn">
+                    <a class="btn btn-default" ui-sref="master.report.manage({ reportNumber: searchNumber || 0 })" ng-disabled="!searchNumber"><i class="glyphicon glyphicon-search"></i></a>
+                </span>
+            </div><!-- /input-group -->
+        </form>
+        <li class="dropdown" uib-dropdown>
+            <a role="button" class="dropdown-toggle" uib-dropdown-toggle>
+                {{navbar.local.user.Name}} {{navbar.local.user.Surname}}<b class="caret"></b>
+            </a>
+            <ul class="uib-dropdown-menu">
+                <li><a ui-sref="master.report"><i class="glyphicon glyphicon-plus"></i> {{'NAV.NEW_REPORT' | translate}}</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header"><b translate>NAV.YOUR_REPORTS_TITLE</b></li>
+                <li><a ui-sref="master.report.list({ listType: 'draft' })"><i class="glyphicon glyphicon-cog"></i> {{'NAV.DRAFTS' | translate}}</a></li>
+                <li><a ui-sref="master.report.list({ listType: 'all' })"><i class="glyphicon glyphicon-list"></i> {{'NAV.ALL' | translate}}</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" ng-click="navbar.actions.doLogout()"><i class="glyphicon glyphicon-off"></i> {{'NAV.LOGOUT' | translate}}</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>

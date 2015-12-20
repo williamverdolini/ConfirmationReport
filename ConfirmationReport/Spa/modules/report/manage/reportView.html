@@ -1,0 +1,111 @@
+﻿<div class="container-fluid" >
+    <div class="row">
+        <form novalidate name="local.reportForm" ng-submit="actions.print()">
+            <!-- Report's Ids-->
+            <div class="header col-md-12">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h1 translate>REPORT.CONFIRMATION_REPORT</h1>
+                    </div>
+                    <div class="col-md-3">
+                        <h1><small>N. </small>{{local.report.ReportNumber}} <span ng-show="local.report.Status==0" class="label label-info" translate>REPORT.DRAFT</span></h1>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="exampleInputName2"><h1><small translate>REPORT.AT_DATE </small></h1></label>
+                                <p class="input-group ">
+                                    <input type="date" class="form-control" ng-model="local.report.ReportDate" disabled />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+            </div>
+
+            <!-- Report's Primary information-->
+            <div class="col-md-12">
+                <div>
+                    <div class="form-group">
+                        <label for="CustomerName" translate>REPORT.CUSTOMER</label>
+                        <input type="text" class="form-control" id="CustomerName" placeholder="Cliente" ng-model="local.report.CustomerName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="CustomerRepresentative" translate>REPORT.CUSTOMER_REP</label>
+                        <input type="text" class="form-control" id="CustomerRepresentative" placeholder="Persona riferimento" ng-model="local.report.CustomerRepresentative" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="OwnerCompleteName" translate>REPORT.OWNERNAME</label>
+                        <input type="text" class="form-control" id="OwnerCompleteName" placeholder="Tecnico Informatica Centro" ng-model="local.report.OwnerCompleteName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <!--<div class="row">-->
+                        <label translate>REPORT.INTERVENTION_MODE</label>
+                        <div class="form-inline ">
+                            <div class="btn-group">
+                                <label class="btn btn-default" ng-class="{'hidden-print' : (local.report.InterventionMode!='0')}" ng-model="local.report.InterventionMode" uib-btn-radio="0" ng-disabled="true" translate> REPORT.INTERVENTION_MODE_ONSITE</label>
+                                <label class="btn btn-default" ng-class="{'hidden-print' : (local.report.InterventionMode!='2')}" ng-model="local.report.InterventionMode" uib-btn-radio="2" ng-disabled="true" translate> REPORT.INTERVENTION_MODE_PHONE</label>
+                                <label class="btn btn-default" ng-class="{'hidden-print' : (local.report.InterventionMode!='1')}" ng-model="local.report.InterventionMode" uib-btn-radio="1" ng-disabled="true" translate> REPORT.INTERVENTION_MODE_LOCAL</label>
+                                <label class="btn btn-default" ng-class="{'hidden-print' : (local.report.InterventionMode!='3')}" ng-model="local.report.InterventionMode" uib-btn-radio="3" ng-disabled="true" translate> REPORT.INTERVENTION_MODE_OTHER </label>
+                            </div>
+                            <input type="text" class="form-control" ng-class="{'hidden-print' : (local.report.InterventionMode!='3')}" id="OtherInterventionMode" placeholder="{{ 'REPORT.INTERVENTION_MODE_OTHER_PO' | translate}}" ng-model="local.report.OtherInterventionMode" ng-disabled="true">
+                        </div>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report's Details-->
+            <div class="col-md-12">
+                <table id="TodoListTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:15%" translate>REPORT.DETAIL_DATE</th>
+                            <th style="width:10%" translate>REPORT.DETAIL_FROM_TIME</th>
+                            <th style="width:10%" translate>REPORT.DETAIL_TO_TIME</th>
+                            <th style="width:55%" translate>REPORT.DETAIL_DESCRIPTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="detail in local.report.Details">
+                            <td>
+                                <div class="input-group ">
+                                    <input type="date" class="form-control" ng-model="detail.Date" disabled />
+                                </div>
+                            </td>
+                            <td>
+                                <uib-timepicker ng-model="detail.FromTime" hour-step="0" minute-step="0" show-meridian="false" show-spinners="false" readonly-input="true" ng-disabled="true"></uib-timepicker>
+                            </td>
+                            <td>
+                                <uib-timepicker ng-model="detail.ToTime" hour-step="0" minute-step="0" show-meridian="false" show-spinners="false" readonly-input="true" ng-disabled="true"></uib-timepicker>
+                            </td>
+                            <td>
+                                <textarea class="form-control" ng-model="detail.Description" disabled></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!--Report Notes-->
+            <div class="col-md-12">
+                <div>
+                    <div class="form-group">
+                        <label for="Notes" translate>REPORT.NOTES</label>
+                        <textarea class="form-control" id="Notes" placeholder="{{'REPORT.NOTES' | translate}}" disabled></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!--Buttons-->
+            <div class="col-md-12 hidden-print">
+                <button type="submit" class="btn btn-primary btn-lg" ng-click="local.Print=true" printhide translate>
+                    REPORT.PRINT_BUTTON
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

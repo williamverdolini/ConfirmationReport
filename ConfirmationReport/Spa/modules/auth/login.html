@@ -1,0 +1,31 @@
+﻿<div class="container-fluid">
+    <div class="col-md-8 col col-md-offset-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 translate>LOGIN.LOGIN_TITLE</h1>
+            </div>
+            <div class="panel-body">
+                <form novalidate name="local.loginForm" ng-submit="actions.login()">
+                    <div class="form-group">
+                        <label for="inputUserName" translate>LOGIN.USERNAME</label>
+                        <input ng-model="local.UserName" type="text" class="form-control" id="inputUserName" placeholder="{{'LOGIN.USERNAME' | translate}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" translate>LOGIN.PASSWORD</label>
+                        <input ng-model="local.Password" type="password" class="form-control" id="inputPassword" placeholder="{{'LOGIN.PASSWORD' | translate}}" required>
+                    </div>
+                    <div class="form-group">
+                        <uib-alert type="warning" ng-show="local.errorMsg" >{{'LOGIN.INVALID_CREDENTIALS' | translate}}</uib-alert>
+                    </div>
+                    <button type="submit" class="btn btn-default" translate>LOGIN.LOGIN_BUTTON</button>
+                </form>
+            </div>
+            <div class="panel-footer" translate>LOGIN.REGISTRATION_MESSAGE</div>
+        </div>
+        <hr />
+        <div class="btn-group btn-group-xs" role="group">
+            <button type="button" class="btn btn-default" ng-model="local.language" uib-btn-radio="'it_IT'" uncheckable ng-click="actions.changeLanguage('it_IT')">Italiano</button>
+            <button type="button" class="btn btn-default" ng-model="local.language" uib-btn-radio="'en_EN'" uncheckable ng-click="actions.changeLanguage('en_EN')">English</button>
+        </div>
+    </div>
+</div>

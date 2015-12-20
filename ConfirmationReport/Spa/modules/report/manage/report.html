@@ -1,0 +1,141 @@
+﻿<div class="container-fluid">
+    <div class="row">
+        <form novalidate name="local.reportForm" ng-submit="actions.saveReport(local.report)">
+            <!-- Report's Ids-->
+            <div class="header col-md-12">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h1 translate>REPORT.CONFIRMATION_REPORT</h1>
+                    </div>
+                    <div class="col-md-3">
+                        <h1 ng-show="!local.report.Id"><small translate>REPORT.NUMBER </small><span class="text-danger">{{local.report.ReportNumber}} </span> <small><span class="glyphicon glyphicon-info-sign" aria-hidden="true" uib-tooltip="{{'REPORT.NUMBET_TOOLTIP' | translate}}"></span></small></h1>
+                        <h1 ng-show="local.report.Id>0"><small translate>REPORT.NUMBER </small><span>{{local.report.ReportNumber}} </span> <span ng-show="local.report.Status==0" class="label label-info" translate>REPORT.DRAFT</span></h1>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="exampleInputName2"><h1><small translate>REPORT.AT_DATE </small></h1></label>
+                                <p class="input-group ">
+                                    <input type="date" class="form-control" uib-datepicker-popup ng-model="local.report.ReportDate" uib-datepicker-popup="{{local.format}}" is-open="status.opened" close-text="Close" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="status.opened=!status.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+            </div>
+
+            <div class="col-md-12">
+                <div>
+                    <div class="form-group">
+                        <label for="CustomerName" translate>REPORT.CUSTOMER</label>
+                        <input type="text" class="form-control" id="CustomerName" placeholder="{{ 'REPORT.CUSTOMER' | translate}}" ng-model="local.report.CustomerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="CustomerRepresentative" translate>REPORT.CUSTOMER_REP</label>
+                        <input type="text" class="form-control" id="CustomerRepresentative" placeholder="{{ 'REPORT.CUSTOMER_REP' | translate}}" ng-model="local.report.CustomerRepresentative" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="OwnerCompleteName" translate>REPORT.OWNERNAME</label>
+                        <input type="text" class="form-control" id="OwnerCompleteName" placeholder="{{ 'REPORT.OWNERNAME' | translate}}" ng-model="local.report.OwnerCompleteName" required disabled>
+                        <input type="hidden" id="OwnerName" ng-model="local.report.OwnerName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="OtherInterventionOps" translate>REPORT.OTHER_OPERATORS</label>
+                        <input type="text" class="form-control" id="OtherInterventionOps" placeholder="{{ 'REPORT.OTHER_OPERATORS' | translate}}" ng-model="local.report.OtherInterventionOps">
+                    </div>
+                    <div class="form-group">
+                        <!--<div class="row">-->
+                        <label translate>REPORT.INTERVENTION_MODE</label>
+                        <div class="form-inline ">
+                            <div class="btn-group">
+                                <label class="btn btn-default" ng-model="local.report.InterventionMode" uib-btn-radio="0" ng-required="!local.report.InterventionMode" translate> REPORT.INTERVENTION_MODE_ONSITE</label>
+                                <label class="btn btn-default" ng-model="local.report.InterventionMode" uib-btn-radio="2" ng-required="!local.report.InterventionMode" translate> REPORT.INTERVENTION_MODE_PHONE</label>
+                                <label class="btn btn-default" ng-model="local.report.InterventionMode" uib-btn-radio="1" ng-required="!local.report.InterventionMode" translate> REPORT.INTERVENTION_MODE_LOCAL</label>
+                                <label class="btn btn-default" ng-model="local.report.InterventionMode" uib-btn-radio="3" ng-required="!local.report.InterventionMode" translate> REPORT.INTERVENTION_MODE_OTHER </label>
+                            </div>
+                            <input type="text" class="form-control" id="OtherInterventionMode" placeholder="{{ 'REPORT.INTERVENTION_MODE_OTHER_PO' | translate}}" ng-model="local.report.OtherInterventionMode" ng-disabled="local.report.InterventionMode!='3'" ng-required="local.report.InterventionMode=='3'">
+                        </div>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report's Details-->
+            <div class="col-md-12">
+                <table id="TodoListTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:15%" translate>REPORT.DETAIL_DATE</th>
+                            <th style="width:10%" translate>REPORT.DETAIL_FROM_TIME</th>
+                            <th style="width:10%" translate>REPORT.DETAIL_TO_TIME</th>
+                            <th style="width:55%" translate>REPORT.DETAIL_DESCRIPTION</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="detail in local.report.Details">
+                            <td>
+                                <div class="input-group ">
+                                    <input type="date" class="form-control" uib-datepicker-popup ng-model="detail.Date" uib-datepicker-popup="{{local.format}}" is-open="detail.opened" close-text="Close" required />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="detail.opened=!detail.opened"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <!--<input class="form-control" type="datetime" required />-->
+                                <uib-timepicker class="input-sm" ng-model="detail.FromTime" hour-step="1" minute-step="30" show-meridian="false" show-spinners="false"></uib-timepicker>
+                            </td>
+                            <td>
+                                <uib-timepicker ng-model="detail.ToTime" hour-step="1" minute-step="30" show-meridian="false" show-spinners="false"></uib-timepicker>
+                                <!--<input class="form-control" type="datetime" required />-->
+                            </td>
+                            <td>
+                                <textarea class="form-control" ng-model="detail.Description" required></textarea>
+                            </td>
+                            <td>
+                                <button class="btn btn-default" type="button" ng-really-message="{{ 'REPORT.DETAIL_DELETE_CONFIRM' | translate}}" ng-really-click="actions.deleteDetail($index)"><span class="glyphicon glyphicon-trash"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <button type="button" class="btn btn-default" ng-click="actions.addNewDetail()">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{ 'REPORT.DETAIL_NEW' | translate}}
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+            </div>
+
+            <!--Report Notes-->
+            <div class="col-md-12">
+                <div>
+                    <div class="form-group">
+                        <label for="Notes" translate>REPORT.NOTES</label>
+                        <textarea class="form-control" id="Notes" placeholder="{{'REPORT.NOTES' | translate}}" ng-model="local.report.Notes"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!--Buttons-->
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary btn-lg" translate>
+                    REPORT.SAVE_BUTTON
+                </button>
+                <button type="submit" class="btn btn-warning btn-lg" ng-click="local.saveAndPrint=true" translate>
+                    REPORT.SAVE_COMPLETE_PRINT_BUTTON
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

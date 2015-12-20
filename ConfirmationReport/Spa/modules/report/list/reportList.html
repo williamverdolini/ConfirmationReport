@@ -1,0 +1,16 @@
+﻿<div class="container-fluid">
+    <div class="page-header">
+        <h3>{{list.local.title}}</h3>
+    </div>
+    
+    <div class="list-group">
+        <a ui-sref="master.report.manage({ reportNumber: report.ReportNumber })" ui-sref-opts="{reload: true, notify: true}" class="list-group-item" ng-class="{'list-group-item': true, 'list-group-item-warning':report.Status==1}" ng-repeat="report in list.local.reportList | filter:searchText">
+            <span ng-show="report.Status==0" class="badge" translate>LIST.DRAFT</span>
+            <h4 class="list-group-item-heading" translate="LIST.ROW_TITLE" translate-values="{ReportNumber: report.ReportNumber, ReportDate: (report.ReportDate | date:'dd/MM/yyyy'), CustomerName: report.CustomerName}" ></h4>
+            <p class="list-group-item-text" translate="LIST.ROW_SUBTITLE" translate-values="{InterventionMode: (report.InterventionMode | ModeDecode), OwnerCompleteName: report.OwnerCompleteName}"></p>
+            <!--<h4 class="list-group-item-heading">Rapportino n.{{report.ReportNumber}} del {{report.ReportDate | date:'dd/MM/yyyy'}} - {{report.CustomerName}}</h4>
+            <p class="list-group-item-text">{{report.InterventionMode | ModeDecode}}, in carico a: {{report.OwnerCompleteName}}</p>-->
+        </a>
+    </div>
+    <h3 ng-show="list.local.reportList.length==0" translate>LIST.NO_ROWS</h3>
+</div>
