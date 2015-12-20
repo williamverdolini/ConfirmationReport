@@ -22,6 +22,7 @@ namespace ConfirmRep.Controllers
         }
 
         [Route("SaveDraft")]
+        [Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> SaveDraft(ConfirmationReportViewModel report)
         {
@@ -39,6 +40,7 @@ namespace ConfirmRep.Controllers
         }
 
         [Route("Save")]
+        [Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> Save(ConfirmationReportViewModel report)
         {
@@ -56,6 +58,7 @@ namespace ConfirmRep.Controllers
         }
 
         [Route("{reportNumber:int}", Name = "FindByNumber")]
+        [Authorize]
         [HttpGet]
         [ResponseType(typeof(ConfirmationReportViewModel))]
         public async Task<IHttpActionResult> FindByNumber(int reportNumber)
@@ -85,6 +88,7 @@ namespace ConfirmRep.Controllers
 
         [Route("FindAllByOwner")]
         [HttpGet]
+        [Authorize]
         [ResponseType(typeof(List<ConfirmationReportViewModel>))]
         public async Task<IHttpActionResult> FindAllByOwner(string ownerName, ReportStatus? status = null)
         {
@@ -98,6 +102,7 @@ namespace ConfirmRep.Controllers
 
         [Route("FindNewReportNumber")]
         [HttpGet]
+        [Authorize]
         [ResponseType(typeof(Int32))]
         public async Task<IHttpActionResult> FindNewReportNumber()
         {
