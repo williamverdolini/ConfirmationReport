@@ -135,6 +135,11 @@
                     'MODE_OTHER': 'Other Mode Intervention'
                 }
             });
-            $translateProvider.preferredLanguage(localStorage.getItem(ConfirmationReportSettings.language) || 'it_IT');
+
+            var preferredLanguage = localStorage.getItem(ConfirmationReportSettings.language) || 'it_IT';
+            $translateProvider.preferredLanguage(preferredLanguage);
+            if (localStorage.getItem(ConfirmationReportSettings.language) == null) {                
+                localStorage.setItem(ConfirmationReportSettings.language, preferredLanguage);
+            }
         }
     ])
