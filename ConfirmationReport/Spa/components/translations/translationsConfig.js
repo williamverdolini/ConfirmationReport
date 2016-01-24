@@ -29,7 +29,7 @@
                 'ERROR': {
                     'GENERIC': '<h1>Errore generico</h1>',
                     'NOT_FOUND_REPORT': "<h1>Ooooooops...<br/><br/><small><p>Il Rapporto di intervento n.<b>{{reportNumber}}</b> NON è stato trovato.</p><p>Sicuro di aver inserito il numero corretto?</p></small></h1>",
-                    'EXCEPTION': "'<h1>Houston, abbiamo un problema!<br/><small>Spiega a William cosa hai fatto e le cose (forse) si sistemeranno.</small></h1>'"
+                    'EXCEPTION': "<h1>Houston, abbiamo un problema!<br/><small>Spiega a William cosa hai fatto e le cose (forse) si sistemeranno.</small></h1>"
                 },
                 'REPORT': {
                     'CONFIRMATION_REPORT': 'Rapporto di Intervento',
