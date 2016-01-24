@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConfirmationReport</RootNamespace>
-    <AssemblyName>ConfirmationReport</AssemblyName>
+    <RootNamespace>ConfirmRep</RootNamespace>
+    <AssemblyName>ConfirmRep</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -160,6 +160,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfirmationReportController.cs" />
     <Compile Include="Infrastructure\Common\Contract.cs" />
+    <Compile Include="Infrastructure\Common\IMapper.cs" />
+    <Compile Include="Infrastructure\Common\LightMapper.cs" />
     <Compile Include="Infrastructure\Injection\Installers\ControllersInstaller.cs" />
     <Compile Include="Infrastructure\Injection\Installers\MappersInstaller.cs" />
     <Compile Include="Infrastructure\Injection\Installers\RepositoriesInstaller.cs" />
@@ -178,6 +180,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomAuthorizationServerProvider.cs" />
     <Compile Include="Repositories\AuthRepository.cs" />
+    <Compile Include="Repositories\Configs\ConfirmationReportConfiguration.cs" />
     <Compile Include="Repositories\ConfirmationReportRepository.cs" />
     <Compile Include="Repositories\ConfirmReportContext.cs" />
     <Compile Include="Repositories\IAuthRepository.cs" />

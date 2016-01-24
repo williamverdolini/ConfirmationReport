@@ -13,9 +13,10 @@ namespace ConfirmRep.ServiceWorkers
     public class ConfirmationReportWorker : IConfirmationReportWorker
     {
         private readonly IConfirmationReportRepository repo; 
-        private readonly IMappingEngine mapper;
+        private readonly IMapper mapper;
 
-        public ConfirmationReportWorker(IConfirmationReportRepository repo, IMappingEngine mapper)
+
+        public ConfirmationReportWorker(IConfirmationReportRepository repo, IMapper mapper)
         {
             Contract.Requires<ArgumentNullException>(repo != null, "IConfirmationReportRepository");
             Contract.Requires<ArgumentNullException>(mapper != null, "mapper");
@@ -47,7 +48,7 @@ namespace ConfirmRep.ServiceWorkers
 
         public async Task<ConfirmationReportViewModel> FindById(int id)
         {
-            ConfirmationReport report = await repo.Reports.AsNoTracking().FirstAsync(r => r.Id.Equals(id));
+            ConfirmationReport report = await repo.Reports.AsNoTracking().FirstOrDefaultAsync(r => r.Id.Equals(id));
             return mapper.Map<ConfirmationReportViewModel>(report);
         }
 

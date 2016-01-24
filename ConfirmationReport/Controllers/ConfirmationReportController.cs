@@ -34,7 +34,7 @@ namespace ConfirmRep.Controllers
             var returnedReport = await worker.SaveDraft(report);
 
             if (isNew)
-                return Created(new Uri(Url.Link("FindById", new { id = report.Id })), report);
+                return Created(new Uri(Url.Link("FindById", new { id = returnedReport.Id })), report);
             else
                 return Ok(report);
         }
@@ -82,8 +82,10 @@ namespace ConfirmRep.Controllers
                 return BadRequest(ModelState);
 
             ConfirmationReportViewModel report = await worker.FindById(id);
-
-            return Ok(report);
+            if (report != null)
+                return Ok(report);
+            else
+                return NotFound();
         }
 
         [Route("FindAllByOwner")]
