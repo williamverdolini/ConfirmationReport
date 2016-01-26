@@ -50,5 +50,39 @@ namespace ConfirmRep.Test
             Assert.IsNull(actual);
         }
 
+        [Test]
+        public async Task SaveDraft__Repo_SaveDraft_is_called_with_mapped_ConfirmationReport()
+        {
+            // Arrange
+            ConfirmationReportViewModel model = new ConfirmationReportViewModel { };
+            ConfirmationReport mappedModel = new ConfirmationReport { };
+            mapper.Map<ConfirmationReport>(model).Returns(mappedModel);
+
+            var worker = new ConfirmationReportWorker(repo, mapper);
+
+            // Act
+            await worker.SaveDraft(model);
+
+            // Assert
+            await repo.Received().SaveDraft(mappedModel);
+        }
+
+        [Test]
+        public async Task Save__Repo_Save_is_called_with_mapped_ConfirmationReport()
+        {
+            // Arrange
+            ConfirmationReportViewModel model = new ConfirmationReportViewModel { };
+            ConfirmationReport mappedModel = new ConfirmationReport { };
+            mapper.Map<ConfirmationReport>(model).Returns(mappedModel);
+
+            var worker = new ConfirmationReportWorker(repo, mapper);
+
+            // Act
+            await worker.Save(model);
+
+            // Assert
+            await repo.Received().Save(mappedModel);
+        }
+
     }
 }
