@@ -15,9 +15,9 @@ namespace ConfirmRep.Repositories
     {
         private readonly ConfirmReportContext db;
 
-        public ConfirmationReportRepository()
+        public ConfirmationReportRepository(ConfirmReportContext context)
         {
-            db = new ConfirmReportContext();
+            db = context;
         }
 
         private static void Update(ConfirmReportContext db, ConfirmationReport report)

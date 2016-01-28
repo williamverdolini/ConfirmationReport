@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ConfirmRep.Infrastructure.Common;
 using ConfirmRep.Models.Domain;
 using ConfirmRep.Models.View;
@@ -14,7 +10,7 @@ using NUnit.Framework;
 namespace ConfirmRep.Test
 {
     [TestFixture]
-    public class ConfirmationReportWorkerTests
+    public class ConfirmationReportWorkerCommandTests
     {
         private IMapper mapper;
         private IConfirmationReportRepository repo;
@@ -83,6 +79,5 @@ namespace ConfirmRep.Test
             // Assert
             await repo.Received().Save(mappedModel);
         }
-
     }
 }
