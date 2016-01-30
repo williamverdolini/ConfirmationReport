@@ -7,12 +7,14 @@ namespace ConfirmRep.Repositories
 {
     public interface IConfirmationReportRepository
     {
+        // Commands
         Task SaveDraft(ConfirmationReport report);
         Task Save(ConfirmationReport report);
-        // IQueryable: Async behaviours delegated to the worker in order to delay the query execution at the last moment
+        // Queries
+        Task<int> FindNewReportNumber();
         Task<ConfirmationReport> FindByNumber(Int32 reportNumber);
-        // TODO: move into the worker
+        Task<ConfirmationReport> FindById(Int32 reportId);
+        // IQueryable: Async behaviours delegated to the worker in order to delay the query execution at the last moment
         IQueryable<ConfirmationReport> FindAllByOwner(string ownerName, ReportStatus? status);
-        IQueryable<ConfirmationReport> Reports { get; }
     }
 }

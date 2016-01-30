@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="ConfirmationReportControllerTests.cs" />
     <Compile Include="ConfirmationReportWorkerCommandTests.cs" />
+    <Compile Include="ConfirmationReportRepositoryTests.cs" />
     <Compile Include="ConfirmationReportWorkerQueryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

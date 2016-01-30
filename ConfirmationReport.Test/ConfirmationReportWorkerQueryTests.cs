@@ -18,40 +18,30 @@ namespace ConfirmRep.Test
     {
         private IMapper mapper;
         private IConfirmationReportRepository repo;
-        private ConfirmReportContext context;
 
         [SetUp]
         public void CreateStubs()
         {
-            context = Substitute.For<ConfirmReportContext>();
             mapper = Substitute.For<IMapper>();
-            repo = Substitute.For<ConfirmationReportRepository>(context);
+            repo = Substitute.For<IConfirmationReportRepository>();
         }
 
         [TearDown]
         public void DistroyStubs()
         {
-            context = null;
             mapper = null;
             repo = null;
         }
 
         [Test]
-        public async Task FindByNumber__If_ReportNumber_exists__Return_ConfirmationReport_with_that_number()
+        public async Task FindByNumber__If_Report_exists__Mapping_Returns_ConfirmationReportViewModel_with_that_number()
         {
             // Arrange
             int model = 5;
             var searchedReport = new ConfirmationReport { ReportNumber = 5 };
-            var data = new List<ConfirmationReport> { searchedReport };
             var returnedReport = new ConfirmationReportViewModel { ReportNumber = 5 };
 
-            // Create a DbSet substitute.
-            var set = Substitute.For<DbSet<ConfirmationReport>, IQueryable<ConfirmationReport>, IDbAsyncEnumerable<ConfirmationReport>>()
-                                .SetupData(data);
-
-            context.Reports.Returns(set);
-            context.Reports.AsNoTracking().Returns(set);
-
+            repo.FindByNumber(model).Returns(searchedReport);
             mapper.Map<ConfirmationReportViewModel>(searchedReport).Returns(returnedReport);
 
             var worker = new ConfirmationReportWorker(repo, mapper);
@@ -65,21 +55,14 @@ namespace ConfirmRep.Test
         }
 
         [Test]
-        public async Task FindByNumber__If_ReportNumber_not_exists__Return_null()
+        public async Task FindByNumber__If_Report_not_exists__Mapping_Returns_null()
         {
             // Arrange
             int model = 5;
-            var searchedReport = new ConfirmationReport { ReportNumber = 6 };
-            var data = new List<ConfirmationReport> { searchedReport };
+            var searchedReport = null as ConfirmationReport;
             var returnedReport = null as ConfirmationReportViewModel;
 
-            // Create a DbSet substitute.
-            var set = Substitute.For<DbSet<ConfirmationReport>, IQueryable<ConfirmationReport>, IDbAsyncEnumerable<ConfirmationReport>>()
-                                .SetupData(data);
-
-            context.Reports.Returns(set);
-            context.Reports.AsNoTracking().Returns(set);
-
+            repo.FindByNumber(model).Returns(searchedReport);
             mapper.Map<ConfirmationReportViewModel>(searchedReport).Returns(returnedReport);
 
             var worker = new ConfirmationReportWorker(repo, mapper);
@@ -90,5 +73,74 @@ namespace ConfirmRep.Test
             // Assert
             Assert.IsNull(actual);
         }
+
+        [Test]
+        public async Task FindById__If_Report_exists__Mapping_Returns_ConfirmationReportViewModel_with_that_id()
+        {
+            // Arrange
+            int model = 5;
+            var searchedReport = new ConfirmationReport { Id = 5 };
+            var returnedReport = new ConfirmationReportViewModel { Id = 5 };
+
+            repo.FindById(model).Returns(searchedReport);
+            mapper.Map<ConfirmationReportViewModel>(searchedReport).Returns(returnedReport);
+
+            var worker = new ConfirmationReportWorker(repo, mapper);
+
+            // Act
+            var actual = await worker.FindById(model);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(returnedReport.Id, actual.Id);
+        }
+
+        [Test]
+        public async Task FindById__If_Report_not_exists__Mapping_Returns_null()
+        {
+            // Arrange
+            int model = 5;
+            var searchedReport = null as ConfirmationReport;
+            var returnedReport = null as ConfirmationReportViewModel;
+
+            repo.FindById(model).Returns(searchedReport);
+            mapper.Map<ConfirmationReportViewModel>(searchedReport).Returns(returnedReport);
+
+            var worker = new ConfirmationReportWorker(repo, mapper);
+
+            // Act
+            var actual = await worker.FindById(model);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
+        public async Task FindAllByOwner__If_owner_has_reports__Mapping_Returns_list_of_mapped_report_with_that_owner()
+        {
+            // Arrange
+            string owner = "wilver";
+            ReportStatus? status = null;
+            var data = new List<ConfirmationReport> { new ConfirmationReport { OwnerName = "wilver" } };
+            List<ConfirmationReport> returnedList = null;
+            var mappedData = new List<ConfirmationReportViewModel> { new ConfirmationReportViewModel { OwnerName = "wilver" } };
+
+            // Create a DbSet substitute.
+            var set = Substitute.For<DbSet<ConfirmationReport>, IQueryable<ConfirmationReport>, IDbAsyncEnumerable<ConfirmationReport>>()
+                                .SetupData(data);
+            repo.FindAllByOwner(owner, status).Returns(set);
+            mapper.Map<List<ConfirmationReportViewModel>>(Arg.Do<List<ConfirmationReport>>(x => returnedList = x));
+
+            var worker = new ConfirmationReportWorker(repo, mapper);
+
+            // Act
+            var actual = await worker.FindAllByOwner(owner, status);
+
+            // Assert
+            Assert.IsNotNull(returnedList);
+            Assert.That(returnedList.Count, Is.EqualTo(data.Count));
+            Assert.That(returnedList, Is.EquivalentTo(data));
+        }
+
     }
 }

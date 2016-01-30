@@ -70,26 +70,39 @@ namespace ConfirmRep.Repositories
         public async Task<ConfirmationReport> FindByNumber(int reportNumber)
         {
             Contract.Requires<ArgumentException>(reportNumber > 0, "reportNumber");
-            return await db.Reports.FindAsync(reportNumber);
+            return await db.Reports.AsNoTracking().FirstOrDefaultAsync(r => r.ReportNumber.Equals(reportNumber));
+
+        }
+
+        public async Task<ConfirmationReport> FindById(int reportId)
+        {
+            Contract.Requires<ArgumentException>(reportId > 0, "reportId");
+            return await db.Reports.FindAsync(reportId);
+        }
+
+        public async Task<int> FindNewReportNumber()
+        {
+            int reportNumber = 0;
+            if (await db.Reports.AnyAsync())
+                reportNumber = await db.Reports.AsNoTracking().MaxAsync(r => r.ReportNumber);
+            return ++reportNumber;
         }
 
         public IQueryable<ConfirmationReport> FindAllByOwner(string ownerName, ReportStatus? status)
         {
             Contract.Requires<ArgumentNullException>(!string.IsNullOrEmpty(ownerName), "ownerName");
-            var reports = db.Reports.Where(r => r.OwnerName.Equals(ownerName));
+            var reports = db.Reports.AsNoTracking().Where(r => r.OwnerName.Equals(ownerName));
             if (status != null)
                 reports = reports.Where(r => r.Status == status.Value);
             return reports;
-        }
-
-        public IQueryable<ConfirmationReport> Reports
-        {
-            get { return db.Reports; }
         }
 
         public void Dispose()
         {
             db.Dispose();
         }
+
+
+
     }
 }

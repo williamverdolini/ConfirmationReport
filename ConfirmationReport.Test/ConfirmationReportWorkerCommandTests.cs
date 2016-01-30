@@ -64,6 +64,23 @@ namespace ConfirmRep.Test
         }
 
         [Test]
+        public async Task Save__Report_null__Return_null()
+        {
+            // Arrange
+            ConfirmationReportViewModel model = null;
+            mapper.Map<ConfirmationReport>(null).Returns(null as ConfirmationReport);
+            mapper.Map<ConfirmationReportViewModel>(null).Returns(null as ConfirmationReportViewModel);
+
+            var worker = new ConfirmationReportWorker(repo, mapper);
+
+            // Act
+            var actual = await worker.SaveDraft(model);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+
+        [Test]
         public async Task Save__Repo_Save_is_called_with_mapped_ConfirmationReport()
         {
             // Arrange
