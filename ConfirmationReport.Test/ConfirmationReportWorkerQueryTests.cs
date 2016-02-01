@@ -142,5 +142,31 @@ namespace ConfirmRep.Test
             Assert.That(returnedList, Is.EquivalentTo(data));
         }
 
+        [Test]
+        public async Task FindAllByOwner__If_owner_has_no_reports__Mapping_Returns_empty_list()
+        {
+            // Arrange
+            string owner = "wilver";
+            ReportStatus? status = null;
+            var data = new List<ConfirmationReport> { };
+            List<ConfirmationReport> returnedList = null;
+
+            // Create a DbSet substitute.
+            var set = Substitute.For<DbSet<ConfirmationReport>, IQueryable<ConfirmationReport>, IDbAsyncEnumerable<ConfirmationReport>>()
+                                .SetupData(data);
+            repo.FindAllByOwner(owner, status).Returns(set);
+            mapper.Map<List<ConfirmationReportViewModel>>(Arg.Do<List<ConfirmationReport>>(x => returnedList = x));
+
+            var worker = new ConfirmationReportWorker(repo, mapper);
+
+            // Act
+            var actual = await worker.FindAllByOwner(owner, status);
+
+            // Assert
+            Assert.IsNotNull(returnedList);
+            Assert.That(returnedList.Count, Is.EqualTo(data.Count));
+            Assert.That(returnedList, Is.EquivalentTo(data));
+        }
+
     }
 }
