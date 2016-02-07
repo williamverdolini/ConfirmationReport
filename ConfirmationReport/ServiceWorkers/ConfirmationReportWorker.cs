@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using AutoMapper;
 using ConfirmRep.Infrastructure.Common;
 using ConfirmRep.Models.Domain;
 using ConfirmRep.Models.View;
@@ -14,7 +13,6 @@ namespace ConfirmRep.ServiceWorkers
     {
         private readonly IConfirmationReportRepository repo; 
         private readonly IMapper mapper;
-
 
         public ConfirmationReportWorker(IConfirmationReportRepository repo, IMapper mapper)
         {
@@ -42,28 +40,25 @@ namespace ConfirmRep.ServiceWorkers
 
         public async Task<ConfirmationReportViewModel> FindByNumber(int reportNumber)
         {
-            ConfirmationReport report = await repo.Reports.AsNoTracking().FirstOrDefaultAsync(r => r.ReportNumber.Equals(reportNumber));
+            ConfirmationReport report = await repo.FindByNumber(reportNumber);
             return mapper.Map<ConfirmationReportViewModel>(report);
         }
 
         public async Task<ConfirmationReportViewModel> FindById(int id)
         {
-            ConfirmationReport report = await repo.Reports.AsNoTracking().FirstOrDefaultAsync(r => r.Id.Equals(id));
+            ConfirmationReport report = await repo.FindById(id);
             return mapper.Map<ConfirmationReportViewModel>(report);
         }
 
         public async Task<List<ConfirmationReportViewModel>> FindAllByOwner(string ownerName, ReportStatus? status)
         {
-            var reports = await repo.FindAllByOwner(ownerName, status).AsNoTracking().ToListAsync();
+            List<ConfirmationReport> reports = await repo.FindAllByOwner(ownerName, status).ToListAsync();
             return mapper.Map<List<ConfirmationReportViewModel>>(reports);
         }
 
         public async Task<int> FindNewReportNumber()
         {
-            int reportNumber = 0;
-            if (await repo.Reports.AnyAsync())
-                reportNumber = await repo.Reports.AsNoTracking().MaxAsync(r => r.ReportNumber);
-            return ++reportNumber;
+            return await repo.FindNewReportNumber();
         }
     }
 }
