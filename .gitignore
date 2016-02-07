@@ -5,4 +5,5 @@ ConfirmationReport/bin
 ConfirmationReport/obj
 ConfirmationReport/App_Data
 ConfirmationReport/Spa/bower_components
-
+bin
+obj
